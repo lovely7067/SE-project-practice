@@ -1,0 +1,15 @@
+# 环境变量（含 API Key，绝不能上传）
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+
+# 测试缓存
+.pytest_cache/
