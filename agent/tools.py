@@ -133,14 +133,20 @@ def execute_python(code: str) -> str:
         tmp.write(code)
         tmp_path = tmp.name
     try:
+        # 显式指定 UTF-8 编解码：Windows 默认 GBK，遇到中文输出会解码失败
+        env = dict(os.environ)
+        env["PYTHONIOENCODING"] = "utf-8"
         proc = subprocess.run(
             [sys.executable, tmp_path],
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=EXEC_TIMEOUT,
+            env=env,
         )
-        out = proc.stdout.strip()
-        err = proc.stderr.strip()
+        out = (proc.stdout or "").strip()
+        err = (proc.stderr or "").strip()
         result = ""
         if out:
             result += f"[stdout]\n{out}\n"
